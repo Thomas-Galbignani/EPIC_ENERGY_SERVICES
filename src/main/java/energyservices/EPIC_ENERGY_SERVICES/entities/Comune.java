@@ -15,8 +15,8 @@ import lombok.Setter;
 public class Comune {
     @Id
     @Setter(AccessLevel.NONE)
-    private long progressivoComune;
     private String denominazione;
+    private long progressivoComune;
     private long codiceProvincia;
 
     @ManyToOne

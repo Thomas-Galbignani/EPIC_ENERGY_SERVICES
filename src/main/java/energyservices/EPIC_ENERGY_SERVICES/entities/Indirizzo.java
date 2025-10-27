@@ -21,7 +21,7 @@ public class Indirizzo {
     private String cap;
 
     @ManyToOne
-    @JoinColumn(name = "progressivoComune")
+    @JoinColumn(name = "comune")
     private Comune comune;
 
     @ManyToOne
