@@ -48,9 +48,9 @@ public class CsvImportService {
         try (CSVReader reader = new CSVReader(new FileReader(filePath.toFile()))) {
             String[] nextLine;
             reader.readNext();
-
+            int count = 1;
             while ((nextLine = reader.readNext()) != null) {
-                int count = 1;
+
                 long codProvincia = Long.parseLong(nextLine[0].split(";")[0]);
                 String progComuneStr = nextLine[0].split(";")[1];
                 long progCom = 0;
