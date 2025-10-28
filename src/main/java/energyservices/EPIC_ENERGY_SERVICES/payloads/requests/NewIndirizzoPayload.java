@@ -18,7 +18,7 @@ public class NewIndirizzoPayload {
     @NotBlank
     private String cap;
     @NotNull
-    private String denominazione;
-    @NotNull
-    private String tipoSede;
+    private String nomeComune;
+
+
 }

@@ -2,13 +2,11 @@ package energyservices.EPIC_ENERGY_SERVICES.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "comuni")
