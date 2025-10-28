@@ -39,7 +39,7 @@ public class ClienteService {
     private FatturaService fatturaService;
 
 
-    public LocalDate getData(String data) {
+    private LocalDate getData(String data) {
         String dataString = "";
         if (data.length() > 10) {
             dataString = data.substring(0, 10);

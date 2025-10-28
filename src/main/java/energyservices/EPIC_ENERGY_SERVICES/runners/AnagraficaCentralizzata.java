@@ -1,6 +1,7 @@
 package energyservices.EPIC_ENERGY_SERVICES.runners;
 
 import energyservices.EPIC_ENERGY_SERVICES.entities.Ruoli;
+import energyservices.EPIC_ENERGY_SERVICES.entities.Stato;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Utente;
 import energyservices.EPIC_ENERGY_SERVICES.importazione.CsvImportService;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NuovoClientePayload;
@@ -8,6 +9,7 @@ import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.RegisterUtentePaylo
 import energyservices.EPIC_ENERGY_SERVICES.repositories.*;
 import energyservices.EPIC_ENERGY_SERVICES.services.AuthService;
 import energyservices.EPIC_ENERGY_SERVICES.services.ClienteService;
+import energyservices.EPIC_ENERGY_SERVICES.services.FatturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class AnagraficaCentralizzata implements CommandLineRunner {
@@ -37,6 +40,13 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
     private ClienteService clienteService;
     @Autowired
     private ClienteRepo clienteRepo;
+    @Autowired
+    private StatoRepo statoRepo;
+    @Autowired
+    private FatturaService fatturaService;
+    @Autowired
+    private FatturaRepo fatturaRepo;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -76,11 +86,23 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
             authService.salvaAdmin(ad);
         }
 
-
         NuovoClientePayload nuovoClientePayload = new NuovoClientePayload("SPA", "02108937465", "email@emailtest.com", "pippero@pippero.it", "3518867764", "pippero@azienda.it", "franco", "spesso", "027873648", "g.rossi", "21", "02122", "Bressanone", "sede legale");
         if (clienteRepo.findAll().isEmpty()) {
             clienteService.clienteSave(nuovoClientePayload);
         }
 
+        Stato daPagare = new Stato("da pagare");
+        Stato pagata = new Stato("pagata");
+        if (statoRepo.findAll().isEmpty()) {
+            statoRepo.save(daPagare);
+            statoRepo.save(pagata);
+        } else if (statoRepo.findAll().size() < 2) {
+            statoRepo.save(pagata);
+        }
+
+
+        clienteService.cancellaCliente(UUID.fromString("dc3f86a2-3efc-4462-a25b-bd22e478f68e"));
     }
+
+
 }
