@@ -1,6 +1,5 @@
 package energyservices.EPIC_ENERGY_SERVICES.payloads.responses;
 
-import energyservices.EPIC_ENERGY_SERVICES.entities.StatoFattura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ public class FatturaResponse {
     private long numeroFattura;
     private LocalDate data;
     private double importo;
-    private StatoFattura statoFattura;
+    private String statoFattura;
     private UUID clienteId;
     private String nomeContattoCliente;
 }

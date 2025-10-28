@@ -35,9 +35,11 @@ public class ClienteService {
     private IndirizzoRepo indirizzoRepo;
     @Autowired
     private FatturaRepo fatturaRepo;
+    @Autowired
+    private FatturaService fatturaService;
 
 
-    private LocalDate getData(String data) {
+    public LocalDate getData(String data) {
         String dataString = "";
         if (data.length() > 10) {
             dataString = data.substring(0, 10);
@@ -138,7 +140,7 @@ public class ClienteService {
         List<Fattura> fatture = fatturaRepo.findByCliente(found);
         if (!fatture.isEmpty()) {
             for (int i = 0; i < fatture.size(); i++) {
-                fatturaRepo.delete(fatture.get(i));
+                fatturaService.eliminaFattura(fatture.get(i).getNumeroFattura());
             }
         }
         clienteRepo.delete(found);
