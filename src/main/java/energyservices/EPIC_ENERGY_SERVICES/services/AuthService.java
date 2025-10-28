@@ -1,13 +1,17 @@
 package energyservices.EPIC_ENERGY_SERVICES.services;
 
+import energyservices.EPIC_ENERGY_SERVICES.configs.security.JWTTools;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Ruoli;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Utente;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.BadRequestException;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.NotFoundException;
+import energyservices.EPIC_ENERGY_SERVICES.exceptions.UnauthorizedException;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.LoginRequest;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.RegisterUtentePayload;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.RuoliRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.UtenteRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,6 +25,10 @@ public class AuthService {
     private RuoliRepo ruoliRepo;
     @Autowired
     private RuoliService ruoliService;
+    @Autowired
+    private PasswordEncoder bcrypt;
+    @Autowired
+    private JWTTools jwtTools;
 
 
     public Utente findById(UUID id) {
@@ -29,6 +37,15 @@ public class AuthService {
             return found.get();
         } else {
             throw new NotFoundException(id);
+        }
+    }
+
+    public Utente findByEmail(String email) {
+        Optional<Utente> found = utRepo.findByEmail(email);
+        if (found.isPresent()) {
+            return found.get();
+        } else {
+            throw new NotFoundException(UUID.fromString(email));
         }
     }
 
@@ -72,5 +89,14 @@ public class AuthService {
         utRepo.save(u);
 
         return u;
+    }
+
+    public String checkAndGenerate(LoginRequest body) {
+        Utente found = this.findByEmail(body.getEmail());
+        if (bcrypt.matches(body.getPassword(), found.getPassword())) {
+            return jwtTools.creaToken(found);
+        } else {
+            throw new UnauthorizedException("credenziali non corrette");
+        }
     }
 }

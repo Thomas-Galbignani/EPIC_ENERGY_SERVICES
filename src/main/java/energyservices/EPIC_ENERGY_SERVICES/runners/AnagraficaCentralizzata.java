@@ -11,6 +11,7 @@ import energyservices.EPIC_ENERGY_SERVICES.repositories.UtenteRepo;
 import energyservices.EPIC_ENERGY_SERVICES.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
@@ -31,6 +32,8 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
     private AuthService authService;
     @Autowired
     private UtenteRepo utenteRepo;
+    @Autowired
+    private PasswordEncoder bcrypt;
 
     @Override
     public void run(String... args) throws Exception {
@@ -55,19 +58,20 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
         }
 
         List<Utente> uts = utenteRepo.findAll();
+        int c = 0;
         if (!uts.isEmpty()) {
-            int c = 0;
+
             for (int i = 0; i < uts.size(); i++) {
                 if (uts.get(i).getRuolo().getNomeRuolo().equals("Admin")) {
                     c++;
                 }
             }
-            if (c <= 0) {
-                RegisterUtentePayload ad = new RegisterUtentePayload("admin", "admin@gmial.com", "1234", "lkjlkj", "òlkòlk");
-                authService.salvaAdmin(ad);
-            }
-        }
 
+        }
+        if (c <= 0) {
+            RegisterUtentePayload ad = new RegisterUtentePayload("admin", "admin@gmial.com", bcrypt.encode("1234"), "Thomas", "Galbignani");
+            authService.salvaAdmin(ad);
+        }
 
     }
 }
