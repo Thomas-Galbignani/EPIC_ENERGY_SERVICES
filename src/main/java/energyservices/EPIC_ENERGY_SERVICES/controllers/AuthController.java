@@ -1,22 +1,12 @@
 package energyservices.EPIC_ENERGY_SERVICES.controllers;
 
-import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.RegisterUtentePayload;
-import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.LoginRequest;
-import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.JwtAuthResponse;
-import energyservices.EPIC_ENERGY_SERVICES.services.AuthService;
-import energyservices.EPIC_ENERGY_SERVICES.services.UtenteService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
+/*
     @Autowired
     private AuthService authService;
     @Autowired
@@ -38,4 +28,6 @@ public class AuthController {
     public ResponseEntity<?> getUser(@PathVariable UUID id) {
         return ResponseEntity.ok(utenteService.findById(id));
     }
+
+ */
 }

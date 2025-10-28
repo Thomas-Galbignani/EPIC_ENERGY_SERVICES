@@ -1,5 +1,5 @@
 package energyservices.EPIC_ENERGY_SERVICES.controllers;
-
+/*
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NewIndirizzoPayload;
 import energyservices.EPIC_ENERGY_SERVICES.services.IndirizzoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,3 +46,4 @@ public class IndirizzoController {
         return ResponseEntity.noContent().build();
     }
 }
+*/

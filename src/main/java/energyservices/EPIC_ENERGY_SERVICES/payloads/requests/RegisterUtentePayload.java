@@ -1,5 +1,5 @@
 package energyservices.EPIC_ENERGY_SERVICES.payloads.requests;
-
+/*
 import energyservices.EPIC_ENERGY_SERVICES.enums.TipoUtente;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -29,3 +29,4 @@ public class RegisterUtentePayload {
     private TipoUtente tipoUtente = TipoUtente.USER; // default
 
 }
+*/

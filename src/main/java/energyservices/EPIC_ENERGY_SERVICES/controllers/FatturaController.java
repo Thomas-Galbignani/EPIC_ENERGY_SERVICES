@@ -1,5 +1,5 @@
 package energyservices.EPIC_ENERGY_SERVICES.controllers;
-
+/*
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NewFatturaPayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.FatturaResponse;
 import energyservices.EPIC_ENERGY_SERVICES.services.FatturaService;
@@ -52,3 +52,4 @@ public class FatturaController {
         return ResponseEntity.noContent().build();
     }
 }
+*/

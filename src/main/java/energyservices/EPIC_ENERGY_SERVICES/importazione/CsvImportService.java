@@ -35,9 +35,49 @@ public class CsvImportService {
                 String provincia = nextLine[0].split(";")[1];
                 String regione = nextLine[0].split(";")[2];
 
+                switch (provincia) {
+                    case "Verbania":
+                        provincia = "Verbano-Cusio-Ossola";
+                        break;
+                    case "Aosta":
+                        provincia = "Valle d'Aosta/Vallée d'Aoste";
+                        break;
+                    case "Monza-Brianza":
+                        provincia = "Monza e della Brianza";
+                        break;
+                    case "Bolzano":
+                        provincia = "Bolzano/Bozen";
+                        break;
+                    case "La-Spezia":
+                        provincia = "La Spezia";
+                        break;
+                    case "Pesaro-Urbino":
+                        provincia = "Pesaro e Urbino";
+                        break;
+                    case "Ascoli-Piceno":
+                        provincia = "Ascoli Piceno";
+                        break;
+                    case "Reggio-Calabria":
+                        provincia = "Reggio Calabria";
+                        break;
+                    case "Vibo-Valentia":
+                        provincia = "Vibo Valentia";
+                        break;
+                    case "Reggio-Emilia":
+                        provincia = "Reggio nell'Emilia";
+                        break;
+                    case "Forli-Cesena":
+                        provincia = "Forlì-Cesena";
+                        break;
+
+                }
+
                 Provincia p = new Provincia(provincia, sigla, regione);
                 provinciaRepo.save(p);
             }
+
+            Provincia p2 = new Provincia("Sud Sardegna", "SU", "Sardegna");
+            provinciaRepo.save(p2);
 
 
         }
@@ -61,7 +101,8 @@ public class CsvImportService {
                     progCom = Long.parseLong(progComuneStr);
                 }
                 String nomeProv = nextLine[0].split(";")[3];
-                Optional<Provincia> foundProv = provinciaRepo.findById(nomeProv);
+
+                /*
                 if (!foundProv.isPresent()) {
                     // throw new RuntimeException("nome provincia non valido");
                     switch (nomeProv) {
@@ -101,13 +142,17 @@ public class CsvImportService {
                             nomeProv = "Cagliari";
                             break;
                     }
-                }
-                foundProv = provinciaRepo.findById(nomeProv);
-                Provincia prov = foundProv.get();
-                String denom = nextLine[0].split(";")[2];
+                } */
+                Optional<Provincia> foundProv = provinciaRepo.findById(nomeProv);
+                if (foundProv.isPresent()) {
+                    Provincia prov = foundProv.get();
+                    String denom = nextLine[0].split(";")[2];
 
-                Comune c = new Comune(denom, progCom, codProvincia, prov);
-                comuneRepo.save(c);
+                    Comune c = new Comune(denom, progCom, codProvincia, prov);
+                    comuneRepo.save(c);
+                } else {
+                    throw new RuntimeException(nomeProv);
+                }
 
 
             }

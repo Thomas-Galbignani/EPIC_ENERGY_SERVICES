@@ -1,5 +1,5 @@
 package energyservices.EPIC_ENERGY_SERVICES.controllers;
-
+/*
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NewClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResponse;
 import energyservices.EPIC_ENERGY_SERVICES.services.ClienteService;
@@ -55,3 +55,4 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 }
+*/
