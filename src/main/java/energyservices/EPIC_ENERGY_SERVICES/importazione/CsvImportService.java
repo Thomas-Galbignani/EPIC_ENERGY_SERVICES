@@ -102,47 +102,6 @@ public class CsvImportService {
                 }
                 String nomeProv = nextLine[0].split(";")[3];
 
-                /*
-                if (!foundProv.isPresent()) {
-                    // throw new RuntimeException("nome provincia non valido");
-                    switch (nomeProv) {
-                        case "Verbano-Cusio-Ossola":
-                            nomeProv = "Verbania";
-                            break;
-                        case "Valle d'Aosta/Vallée d'Aoste":
-                            nomeProv = "Aosta";
-                            break;
-                        case "Monza e della Brianza":
-                            nomeProv = "Monza-Brianza";
-                            break;
-                        case "Bolzano/Bozen":
-                            nomeProv = "Bolzano";
-                            break;
-                        case "La Spezia":
-                            nomeProv = "La-Spezia";
-                            break;
-                        case "Pesaro e Urbino":
-                            nomeProv = "Pesaro-Urbino";
-                        case "Ascoli Piceno":
-                            nomeProv = "Ascoli-Piceno";
-                            break;
-                        case "Reggio Calabria":
-                            nomeProv = "Reggio-Calabria";
-                            break;
-                        case "Vibo Valentia":
-                            nomeProv = "Vibo-Valentia";
-                            break;
-                        case "Reggio nell'Emilia":
-                            nomeProv = "Reggio-Emilia";
-                            break;
-                        case "Forlì-Cesena":
-                            nomeProv = "Forli-Cesena";
-                            break;
-                        case "Sud Sardegna":
-                            nomeProv = "Cagliari";
-                            break;
-                    }
-                } */
                 Optional<Provincia> foundProv = provinciaRepo.findById(nomeProv);
                 if (foundProv.isPresent()) {
                     Provincia prov = foundProv.get();

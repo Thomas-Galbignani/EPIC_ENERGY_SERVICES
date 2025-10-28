@@ -3,6 +3,7 @@ package energyservices.EPIC_ENERGY_SERVICES.services;
 
 import energyservices.EPIC_ENERGY_SERVICES.entities.Cliente;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Comune;
+import energyservices.EPIC_ENERGY_SERVICES.entities.Fattura;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Indirizzo;
 import energyservices.EPIC_ENERGY_SERVICES.enums.RagioneSociale;
 import energyservices.EPIC_ENERGY_SERVICES.enums.TipoSede;
@@ -10,12 +11,15 @@ import energyservices.EPIC_ENERGY_SERVICES.exceptions.BadRequestException;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.NotFoundException;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NuovoClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDTO;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDataDTO;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.ClienteRepo;
+import energyservices.EPIC_ENERGY_SERVICES.repositories.FatturaRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.IndirizzoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,6 +33,8 @@ public class ClienteService {
     private ComuneService comuneService;
     @Autowired
     private IndirizzoRepo indirizzoRepo;
+    @Autowired
+    private FatturaRepo fatturaRepo;
 
 
     private LocalDate getData(String data) {
@@ -117,6 +123,33 @@ public class ClienteService {
         indirizzoRepo.save(i);
 
         ClienteResDTO res = new ClienteResDTO(cliente.getUuid(), cliente.getNomeContatto(), cliente.getCognomeContatto());
+        return res;
+
+    }
+
+    public void cancellaCliente(UUID id) {
+        Cliente found = this.findById(id);
+        List<Indirizzo> indirizzi = indirizzoRepo.findByCliente(found);
+        if (!indirizzi.isEmpty()) {
+            for (int i = 0; i < indirizzi.size(); i++) {
+                indirizzoRepo.delete(indirizzi.get(i));
+            }
+        }
+        List<Fattura> fatture = fatturaRepo.findByCliente(found);
+        if (!fatture.isEmpty()) {
+            for (int i = 0; i < fatture.size(); i++) {
+                fatturaRepo.delete(fatture.get(i));
+            }
+        }
+        clienteRepo.delete(found);
+    }
+
+    public ClienteResDataDTO setDataUltimoCont(UUID id, String data) {
+        Cliente found = this.findById(id);
+        LocalDate dataUltCont = this.getData(data);
+        found.setDataUltimoContatto(dataUltCont);
+        clienteRepo.save(found);
+        ClienteResDataDTO res = new ClienteResDataDTO(found.getUuid(), found.getNomeContatto(), found.getCognomeContatto(), found.getDataUltimoContatto());
         return res;
 
     }

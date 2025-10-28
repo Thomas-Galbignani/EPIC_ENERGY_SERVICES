@@ -5,11 +5,9 @@ import energyservices.EPIC_ENERGY_SERVICES.entities.Utente;
 import energyservices.EPIC_ENERGY_SERVICES.importazione.CsvImportService;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NuovoClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.RegisterUtentePayload;
-import energyservices.EPIC_ENERGY_SERVICES.repositories.ComuneRepo;
-import energyservices.EPIC_ENERGY_SERVICES.repositories.ProvinciaRepo;
-import energyservices.EPIC_ENERGY_SERVICES.repositories.RuoliRepo;
-import energyservices.EPIC_ENERGY_SERVICES.repositories.UtenteRepo;
+import energyservices.EPIC_ENERGY_SERVICES.repositories.*;
 import energyservices.EPIC_ENERGY_SERVICES.services.AuthService;
+import energyservices.EPIC_ENERGY_SERVICES.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,6 +33,10 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
     private UtenteRepo utenteRepo;
     @Autowired
     private PasswordEncoder bcrypt;
+    @Autowired
+    private ClienteService clienteService;
+    @Autowired
+    private ClienteRepo clienteRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -76,5 +78,9 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
 
 
         NuovoClientePayload nuovoClientePayload = new NuovoClientePayload("SPA", "02108937465", "email@emailtest.com", "pippero@pippero.it", "3518867764", "pippero@azienda.it", "franco", "spesso", "027873648", "g.rossi", "21", "02122", "Bressanone", "sede legale");
+        if (clienteRepo.findAll().isEmpty()) {
+            clienteService.clienteSave(nuovoClientePayload);
+        }
+
     }
 }
