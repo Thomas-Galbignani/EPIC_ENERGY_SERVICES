@@ -1,7 +1,9 @@
 package energyservices.EPIC_ENERGY_SERVICES.payloads.responses;
 
-import energyservices.EPIC_ENERGY_SERVICES.enums.StatoFattura;
-import lombok.*;
+import energyservices.EPIC_ENERGY_SERVICES.entities.StatoFattura;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.UUID;

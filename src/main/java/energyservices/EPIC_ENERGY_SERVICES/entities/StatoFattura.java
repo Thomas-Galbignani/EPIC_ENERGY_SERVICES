@@ -1,27 +1,26 @@
 package energyservices.EPIC_ENERGY_SERVICES.entities;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Entity
+@Table(name = "stati_fatture")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "fatture")
-public class Fattura {
+public class StatoFattura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private long numeroFattura;
-    private LocalDate data;
-    private double importo;
-
+    private long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente")
-    private Cliente cliente;
+    @JoinColumn(name = "id_stato")
+    private Stato stato;
+
+    @OneToOne
+    @JoinColumn(name = "id_fattura")
+    private Fattura fattura;
+
 
 }

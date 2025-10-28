@@ -1,7 +1,6 @@
 package energyservices.EPIC_ENERGY_SERVICES.entities;
 
 
-import energyservices.EPIC_ENERGY_SERVICES.enums.TipoUtente;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -26,6 +25,6 @@ public class Utente {
     private String surname;
     private String email;
     private String password;
-    private TipoUtente tipoUtente;
+
 
 }

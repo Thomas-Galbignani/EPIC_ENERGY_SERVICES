@@ -1,6 +1,7 @@
 package energyservices.EPIC_ENERGY_SERVICES.entities;
 
 
+import energyservices.EPIC_ENERGY_SERVICES.enums.TipoSede;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,8 @@ public class Indirizzo {
     private String via;
     private String civico;
     private String cap;
+    @Enumerated(EnumType.STRING)
+    private TipoSede tipoSede;
 
     @ManyToOne
     @JoinColumn(name = "comune")
