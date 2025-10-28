@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class AnagraficaCentralizzata implements CommandLineRunner {
@@ -101,7 +100,6 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
         }
 
 
-        clienteService.cancellaCliente(UUID.fromString("dc3f86a2-3efc-4462-a25b-bd22e478f68e"));
     }
 
 
