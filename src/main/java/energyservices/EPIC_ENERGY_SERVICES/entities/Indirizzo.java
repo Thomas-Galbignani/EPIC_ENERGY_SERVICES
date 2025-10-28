@@ -3,13 +3,15 @@ package energyservices.EPIC_ENERGY_SERVICES.entities;
 
 import energyservices.EPIC_ENERGY_SERVICES.enums.TipoSede;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Table(name = "indirizzi")
 public class Indirizzo {
@@ -30,4 +32,13 @@ public class Indirizzo {
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
+    public Indirizzo(String via, String civico, String cap, TipoSede tipoSede, Comune comune, Cliente cliente) {
+        this.via = via;
+        this.civico = civico;
+        this.cap = cap;
+        this.tipoSede = tipoSede;
+        this.comune = comune;
+        this.cliente = cliente;
+    }
 }

@@ -8,4 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface ClienteRepo extends JpaRepository<Cliente, UUID> {
+
+
 }

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ComuneRepo extends JpaRepository<Comune, Long> {
+public interface ComuneRepo extends JpaRepository<Comune, String> {
 }

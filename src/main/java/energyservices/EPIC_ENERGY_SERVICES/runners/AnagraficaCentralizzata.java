@@ -3,6 +3,7 @@ package energyservices.EPIC_ENERGY_SERVICES.runners;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Ruoli;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Utente;
 import energyservices.EPIC_ENERGY_SERVICES.importazione.CsvImportService;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NuovoClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.RegisterUtentePayload;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.ComuneRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.ProvinciaRepo;
@@ -73,5 +74,7 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
             authService.salvaAdmin(ad);
         }
 
+
+        NuovoClientePayload nuovoClientePayload = new NuovoClientePayload("SPA", "02108937465", "email@emailtest.com", "pippero@pippero.it", "3518867764", "pippero@azienda.it", "franco", "spesso", "027873648", "g.rossi", "21", "02122", "Bressanone", "sede legale");
     }
 }
