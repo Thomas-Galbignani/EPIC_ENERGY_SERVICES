@@ -2,7 +2,7 @@ package energyservices.EPIC_ENERGY_SERVICES.entities;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -12,7 +12,8 @@ import java.util.List;
 @Table(name = "ruoli")
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Ruoli {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,7 @@ public class Ruoli {
     long id;
     private String nomeRuolo;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "ruoli_utenti",
             joinColumns = @JoinColumn(name = "ruolo_id"),
@@ -32,5 +33,11 @@ public class Ruoli {
         this.nomeRuolo = nomeRuolo;
     }
 
-
+    @Override
+    public String toString() {
+        return "Ruoli{" +
+                "id=" + id +
+                ", nomeRuolo='" + nomeRuolo + '\'' +
+                '}';
+    }
 }

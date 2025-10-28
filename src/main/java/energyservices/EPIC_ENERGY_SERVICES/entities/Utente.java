@@ -30,7 +30,7 @@ public class Utente implements UserDetails {
     private String surname;
     private String email;
     private String password;
-    @OneToOne
+    @ManyToOne
     @JoinTable(
             name = "ruoli_utenti",
             joinColumns = @JoinColumn(name = "utente_id"),

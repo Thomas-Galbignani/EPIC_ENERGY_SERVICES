@@ -2,6 +2,7 @@ package energyservices.EPIC_ENERGY_SERVICES.controllers;
 
 import energyservices.EPIC_ENERGY_SERVICES.entities.Utente;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.RegisterUtentePayload;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.UtenteResponsePayload;
 import energyservices.EPIC_ENERGY_SERVICES.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -28,9 +29,11 @@ public class AuthController {
     */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Utente register(@RequestBody @Validated RegisterUtentePayload payload, BindingResult br) {
+    public UtenteResponsePayload register(@RequestBody @Validated RegisterUtentePayload payload, BindingResult br) {
         if (br.hasErrors()) throw new IllegalArgumentException(br.getAllErrors().toString());
-        return authService.salvaUtente(payload);
+        Utente u = authService.salvaUtente(payload);
+        UtenteResponsePayload res = new UtenteResponsePayload(u.getUuid().toString(), u.getName(), u.getSurname());
+        return res;
     }
 
     @GetMapping("/users/{id}")

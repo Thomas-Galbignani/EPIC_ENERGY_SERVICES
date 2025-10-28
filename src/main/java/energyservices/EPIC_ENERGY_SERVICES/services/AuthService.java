@@ -52,4 +52,25 @@ public class AuthService {
 
         return u;
     }
+
+    public Utente salvaAdmin(RegisterUtentePayload payload) {
+        if (utRepo.existsByEmail(payload.getEmail())) {
+            throw new BadRequestException("l'email " + payload.getEmail() + " è già in uso");
+        }
+        Utente u = new Utente(payload.getUsername(), payload.getName(), payload.getSurname(), payload.getEmail(), payload.getPassword());
+        Ruoli role = null;
+        //assegnazione ruolo user di default
+        if (!ruoliRepo.existsByNomeRuolo("Admin")) {
+            Ruoli r = new Ruoli("Admin");
+            ruoliRepo.save(r);
+
+        }
+        role = ruoliService.findByRuolo("Admin");
+        //--------------------------------------------------------
+        //salvo nella tabella intermedia l'utente e il ruolo di default (User)
+        u.setRuolo(role);
+        utRepo.save(u);
+
+        return u;
+    }
 }
