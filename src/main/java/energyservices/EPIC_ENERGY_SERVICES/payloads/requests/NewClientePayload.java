@@ -11,25 +11,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewClientePayload {
-
-    @NotNull
-    private String ragioneSociale;
     @NotBlank
-    private String pIva;
+    private String ragioneSociale;
     @Email
     private String email;
-    private String dataInserimento;
-    private String dataUltimoContatto;
+    @NotNull
     private String PEC;
     private String telefono;
-    @Email
     private String emailContatto;
+    @NotBlank
     private String nomeContatto;
+    @NotBlank
     private String cognomeContatto;
     private String telefonoContatto;
-    private String logoAziendale; // URL Cloudinary
-
-
-    // Getters e Setters
-    // (puoi usare @Data di Lombok se preferisci)
 }

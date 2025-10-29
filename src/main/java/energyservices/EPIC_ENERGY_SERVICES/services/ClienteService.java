@@ -9,6 +9,7 @@ import energyservices.EPIC_ENERGY_SERVICES.enums.RagioneSociale;
 import energyservices.EPIC_ENERGY_SERVICES.enums.TipoSede;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.BadRequestException;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.NotFoundException;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NewClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NuovoClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDTO;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDataDTO;
@@ -154,6 +155,40 @@ public class ClienteService {
         ClienteResDataDTO res = new ClienteResDataDTO(found.getUuid(), found.getNomeContatto(), found.getCognomeContatto(), found.getDataUltimoContatto());
         return res;
 
+    }
+
+    public ClienteResDataDTO editCliente(UUID id, NewClientePayload newClientePayload) {
+        Cliente found = this.findById(id);
+
+        String ragioneSociale = newClientePayload.getRagioneSociale();
+        RagioneSociale ragioneSociale1;
+        switch (ragioneSociale.toUpperCase()) {
+            case "PA":
+                ragioneSociale1 = RagioneSociale.PA;
+                break;
+            case "SAS":
+                ragioneSociale1 = RagioneSociale.SAS;
+                break;
+            case "SPA":
+                ragioneSociale1 = RagioneSociale.SPA;
+                break;
+            case "SRL":
+                ragioneSociale1 = RagioneSociale.SRL;
+                break;
+            default:
+                throw new BadRequestException("Ragione sociale non valida, scegli tra queste: PA, SAS, SPA, SRL ");
+        }
+        found.setRagioneSociale(ragioneSociale1);
+        found.setEmail(newClientePayload.getEmail());
+        found.setPEC(newClientePayload.getPEC());
+        found.setTelefono(newClientePayload.getTelefono());
+        found.setEmailContatto(newClientePayload.getEmailContatto());
+        found.setNomeContatto(newClientePayload.getNomeContatto());
+        found.setCognomeContatto(newClientePayload.getCognomeContatto());
+        found.setTelefonoContatto(newClientePayload.getTelefonoContatto());
+
+        clienteRepo.save(found);
+        return new ClienteResDataDTO(found.getUuid(), found.getNomeContatto(), found.getCognomeContatto(), found.getDataUltimoContatto());
     }
 
 

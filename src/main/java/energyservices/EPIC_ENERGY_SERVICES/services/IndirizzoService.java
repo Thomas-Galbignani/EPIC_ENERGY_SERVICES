@@ -52,4 +52,16 @@ public class IndirizzoService {
         indirizzoRepo.delete(found);
     }
 
+    public IndirizzoResDTO modificaIndirizzo(UUID id, NewIndirizzoPayload payload) {
+
+        Comune comune = comuneService.findById(payload.getNomeComune());
+        Indirizzo found = this.findById(id);
+        found.setVia(payload.getVia());
+        found.setCivico(payload.getCivico());
+        found.setCap(payload.getCap());
+        found.setComune(comune);
+        indirizzoRepo.save(found);
+        IndirizzoResDTO res = new IndirizzoResDTO(found.getUuid().toString(), found.getVia(), found.getCivico(), found.getCap(), comune.getDenominazione(), found.getCliente().getUuid().toString());
+        return res;
+    }
 }
