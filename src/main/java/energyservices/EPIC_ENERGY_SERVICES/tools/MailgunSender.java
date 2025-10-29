@@ -1,6 +1,6 @@
 package energyservices.EPIC_ENERGY_SERVICES.tools;
 
-
+/*
 import energyservices.EPIC_ENERGY_SERVICES.entities.Utente;
 import kong.unirest.core.HttpResponse;
 import kong.unirest.core.JsonNode;
@@ -33,3 +33,4 @@ public class MailgunSender {
     public void sendBillingEmail(Utente recipient) {
     }
 }
+*/
