@@ -12,7 +12,12 @@ import energyservices.EPIC_ENERGY_SERVICES.repositories.ClienteRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.FatturaRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.StatoFatturaRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.StatoRepo;
+import energyservices.EPIC_ENERGY_SERVICES.specifications.SpecificationFatture;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -120,5 +125,36 @@ public class FatturaService {
         statoFatturaRepo.save(newState);
         FatturaResponse res = new FatturaResponse(found.getNumeroFattura(), found.getData(), found.getImporto(), stato.getFirst().getNomeStato(), found.getCliente().getUuid(), found.getCliente().getNomeContatto());
         return res;
+    }
+
+    public Page<Fattura> filtraFatture(int page, int size, String idcliente, String dataMagDi, Double importoMagDi, Double importoMinDi) {
+        LocalDate data;
+        if (dataMagDi.equals("0")) {
+            data = null;
+        } else {
+            try {
+                data = getData(dataMagDi);
+            } catch (Exception e) {
+                data = null;
+            }
+        }
+        Cliente cliente;
+        if (!idcliente.equals("0")) {
+            Optional<Cliente> found = clienteRepo.findById(UUID.fromString(idcliente));
+
+            if (found.isPresent()) {
+                cliente = found.get();
+            } else {
+                cliente = null;
+            }
+        } else {
+            cliente = null;
+        }
+        Specification<Fattura> spec = Specification.not(SpecificationFatture.filtraPerCliente(cliente))
+                .and(SpecificationFatture.dataMaggioreDi(data))
+                .and(SpecificationFatture.importoMaggDi(importoMagDi))
+                .and(SpecificationFatture.importoMinoreDi(importoMinDi));
+        Pageable pageable = PageRequest.of(page, size);
+        return fatturaRepo.findAll(spec, pageable);
     }
 }

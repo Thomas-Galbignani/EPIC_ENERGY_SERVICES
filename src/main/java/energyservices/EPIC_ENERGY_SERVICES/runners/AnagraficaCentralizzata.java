@@ -100,10 +100,9 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
         }
 
 
-//        NewFatturaDTO fattura = new NewFatturaDTO(123, "");
-//        fatturaService.salvaFattura(fattura);
-//        Fattura fatturaNelDB = fatturaService.findById(1);
-//        fatturaService.setStato(fatturaNelDB.getNumeroFattura(), "pagata");
+        //  NewFatturaDTO fattura = new NewFatturaDTO(123, "b3ccb3c5-5c59-408f-a574-3cfb651d14f3");
+        //fatturaService.salvaFattura(fattura);
+
 
     }
 

@@ -1,37 +1,45 @@
 package energyservices.EPIC_ENERGY_SERVICES.controllers;
-/*
-import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NewFatturaPayload;
-import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.FatturaResponse;
+
+import energyservices.EPIC_ENERGY_SERVICES.entities.Fattura;
 import energyservices.EPIC_ENERGY_SERVICES.services.FatturaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/fatture")
+@RequestMapping("/fatture")
 public class FatturaController {
 
     @Autowired
     private FatturaService fatturaService;
 
-    @PostMapping
-    public ResponseEntity<FatturaResponse> createFattura(
-            @RequestBody @Validated NewFatturaPayload payload,
-            BindingResult br) {
-        if (br.hasErrors()) throw new IllegalArgumentException(br.getAllErrors().toString());
-        FatturaResponse saved = fatturaService.create(payload);
-        return ResponseEntity.status(201).body(saved);
-    }
+    /*
+        @PostMapping
+        public ResponseEntity<FatturaResponse> createFattura(
+                @RequestBody @Validated NewFatturaPayload payload,
+                BindingResult br) {
+            if (br.hasErrors()) throw new IllegalArgumentException(br.getAllErrors().toString());
+            FatturaResponse saved = fatturaService.create(payload);
+            return ResponseEntity.status(201).body(saved);
+        }
+    */
 
     @GetMapping
-    public ResponseEntity<List<FatturaResponse>> listAll() {
-        return ResponseEntity.ok(fatturaService.findAll());
-    }
+    public Page<Fattura> filtraFatture(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "0") String idCliente,
+            @RequestParam(required = false, defaultValue = "0") String dataMagDi,
+            @RequestParam(required = false) Double importoMagDi,
+            @RequestParam(required = false) Double importoMinDi
+    ) {
+        return fatturaService.filtraFatture(page, size, idCliente, dataMagDi, importoMagDi, importoMinDi);
 
+    }
+/*
     @GetMapping("/{numeroFattura}")
     public ResponseEntity<FatturaResponse> getById(@PathVariable long numeroFattura) {
         return ResponseEntity.ok(fatturaService.findById(numeroFattura));
@@ -51,5 +59,5 @@ public class FatturaController {
         fatturaService.delete(numeroFattura);
         return ResponseEntity.noContent().build();
     }
+    */
 }
-*/
