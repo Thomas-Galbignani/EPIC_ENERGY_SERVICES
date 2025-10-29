@@ -52,15 +52,29 @@ public class ClienteController {
         }
     }
 
+    /*
+        @GetMapping
+        public Page<Cliente> filtraClienti(
+                @RequestParam(defaultValue = "0") int page,
+                @RequestParam(defaultValue = "10") int size,
+                @RequestParam(required = false, defaultValue = "0") String dataInserimento,
+                @RequestParam(required = false, defaultValue = "0") String dataUltimoContatto,
+                @RequestParam(required = false) String nome
+        ) {
+            return clienteService.filtraClienti(page, size, dataInserimento, dataUltimoContatto, nome);
+        }
+        */
     @GetMapping
     public Page<Cliente> filtraClienti(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false, defaultValue = "0") String dataInserimento,
-            @RequestParam(required = false, defaultValue = "0") String dataUltimoContatto,
-            @RequestParam(required = false) String nome
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) Double fatMin,
+            @RequestParam(required = false) Double fatMax,
+            @RequestParam(required = false, defaultValue = "0") String dataInsSt,
+            @RequestParam(required = false, defaultValue = "0") String dataUltSt
     ) {
-        return clienteService.filtraClienti(page, size, dataInserimento, dataUltimoContatto, nome);
+        return clienteService.filtra(page, size, nome, fatMin, fatMax, dataInsSt, dataUltSt);
     }
 /*
     @GetMapping("/{id}")

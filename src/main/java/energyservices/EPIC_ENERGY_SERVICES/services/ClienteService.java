@@ -260,5 +260,38 @@ public class ClienteService {
 
     }
 
+    public Page<Cliente> filtra(
+            int page,
+            int size,
+            String nome,
+            Double fatMin,
+            Double fatMax,
+            String dataInsSt,
+            String dataUltSt
+    ) {
+        LocalDate dataIns;
+        if (dataInsSt.equals("0")) {
+            dataIns = null;
+        } else {
+            try {
+                dataIns = getData(dataInsSt);
+            } catch (Exception e) {
+                dataIns = null;
+            }
+        }
+        LocalDate dataUlt;
+        if (dataUltSt.equals("0")) {
+            dataUlt = null;
+        } else {
+            try {
+                dataUlt = getData(dataUltSt);
+            } catch (Exception e) {
+                dataUlt = null;
+            }
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return clienteRepo.findAll((SpecificationCliente.filtra(nome, fatMin, fatMax, dataIns, dataUlt)), pageable);
+    }
+
 
 }
