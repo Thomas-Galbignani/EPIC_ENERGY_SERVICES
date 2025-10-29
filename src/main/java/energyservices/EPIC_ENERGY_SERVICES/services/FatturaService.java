@@ -102,4 +102,23 @@ public class FatturaService {
         }
         fatturaRepo.delete(found);
     }
+
+    public FatturaResponse setStato(long numeroFattura, String nuovoStato) {
+        Fattura found = this.findById(numeroFattura);
+        List<StatoFattura> staFattura = statoFatturaRepo.findByFattura(found);
+        List<Stato> stato = statoRepo.findByNomeStato(nuovoStato);
+        if (stato.isEmpty()) {
+            throw new BadRequestException("Il nome dello stato non è valido!");
+        }
+        if (!staFattura.isEmpty()) {
+            for (int i = 0; i < staFattura.size(); i++) {
+                statoFatturaRepo.delete(staFattura.get(i));
+            }
+        }
+
+        StatoFattura newState = new StatoFattura(stato.getFirst(), found);
+        statoFatturaRepo.save(newState);
+        FatturaResponse res = new FatturaResponse(found.getNumeroFattura(), found.getData(), found.getImporto(), stato.getFirst().getNomeStato(), found.getCliente().getUuid(), found.getCliente().getNomeContatto());
+        return res;
+    }
 }
