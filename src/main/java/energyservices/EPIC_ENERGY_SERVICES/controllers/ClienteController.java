@@ -1,40 +1,67 @@
 package energyservices.EPIC_ENERGY_SERVICES.controllers;
-/*
-import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NewClientePayload;
-import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResponse;
+
+import energyservices.EPIC_ENERGY_SERVICES.entities.Cliente;
+import energyservices.EPIC_ENERGY_SERVICES.exceptions.BadRequestException;
 import energyservices.EPIC_ENERGY_SERVICES.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/api/clienti")
+@RequestMapping("/clienti")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    @PostMapping
-    public ResponseEntity<ClienteResponse> createCliente(
-            @RequestBody @Validated NewClientePayload payload,
-            BindingResult br) {
-        if (br.hasErrors()) {
-            throw new IllegalArgumentException(br.getAllErrors().toString());
+    /*
+        @PostMapping
+        public ResponseEntity<ClienteResponse> createCliente(
+                @RequestBody @Validated NewClientePayload payload,
+                BindingResult br) {
+            if (br.hasErrors()) {
+                throw new IllegalArgumentException(br.getAllErrors().toString());
+            }
+            ClienteResponse saved = clienteService.create(payload);
+            return ResponseEntity.status(201).body(saved);
         }
-        ClienteResponse saved = clienteService.create(payload);
-        return ResponseEntity.status(201).body(saved);
+    */
+    private LocalDate getData(String data) {
+        String dataString = "";
+        if (data.length() > 10) {
+            dataString = data.substring(0, 10);
+        } else if (data.length() == 10) {
+            dataString = data;
+        } else {
+            throw new BadRequestException("data non valida");
+        }
+        try {
+            String[] dataArray = dataString.split("-");
+            int anno = Integer.parseInt(dataArray[0]);
+            int mese = Integer.parseInt(dataArray[1]);
+            int giorno = Integer.parseInt(dataArray[2]);
+            LocalDate dataloc = LocalDate.of(anno, mese, giorno);
+            return dataloc;
+        } catch (Exception ex) {
+            throw new BadRequestException("data non valida");
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<ClienteResponse>> listAll() {
-        return ResponseEntity.ok(clienteService.findAll());
+    public Page<Cliente> filtraClienti(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "0") String dataInserimento,
+            @RequestParam(required = false) String nome
+    ) {
+        return clienteService.filtraClienti(page, size, dataInserimento, nome);
     }
-
+/*
     @GetMapping("/{id}")
     public ResponseEntity<ClienteResponse> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(clienteService.findById(id));
@@ -54,5 +81,6 @@ public class ClienteController {
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }
+    */
+
 }
-*/

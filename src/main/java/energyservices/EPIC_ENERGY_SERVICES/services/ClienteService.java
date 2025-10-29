@@ -19,7 +19,12 @@ import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResLogoDTO;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.ClienteRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.FatturaRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.IndirizzoRepo;
+import energyservices.EPIC_ENERGY_SERVICES.specifications.SpecificationCliente;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -228,6 +233,23 @@ public class ClienteService {
         } catch (IOException ex) {
             throw new BadRequestException("errore nell'upload");
         }
+    }
+
+    public Page<Cliente> filtraClienti(int page, int size, String dataIns, String nome) {
+        LocalDate data;
+        if (dataIns.equals("0")) {
+            data = null;
+
+        } else {
+            data = getData(dataIns);
+        }
+
+        Specification<Cliente> spec = Specification.not(SpecificationCliente.dataInserimentoDopo(data))
+                .and(SpecificationCliente.nomeContiene(nome));
+        Pageable pageable = PageRequest.of(page, size);
+
+        return clienteRepo.findAll(spec, pageable);
+
     }
 
 

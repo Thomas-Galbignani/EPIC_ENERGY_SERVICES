@@ -26,11 +26,13 @@ public class Cliente {
     private RagioneSociale ragioneSociale;
     private String pIva;
     private String email;
+
     private LocalDate dataInserimento;
     private LocalDate dataUltimoContatto;
     private String PEC;
     private String telefono;
     private String emailContatto;
+
     private String nomeContatto;
     private String cognomeContatto;
     private String telefonoContatto;
