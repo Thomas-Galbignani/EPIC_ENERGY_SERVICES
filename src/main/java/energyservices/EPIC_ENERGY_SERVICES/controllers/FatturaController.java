@@ -1,7 +1,8 @@
 package energyservices.EPIC_ENERGY_SERVICES.controllers;
 
-import energyservices.EPIC_ENERGY_SERVICES.entities.Fattura;
+import energyservices.EPIC_ENERGY_SERVICES.entities.StatoFattura;
 import energyservices.EPIC_ENERGY_SERVICES.services.FatturaService;
+import energyservices.EPIC_ENERGY_SERVICES.services.StatoFatturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,8 @@ public class FatturaController {
 
     @Autowired
     private FatturaService fatturaService;
+    @Autowired
+    private StatoFatturaService statoFatturaService;
 
     /*
         @PostMapping
@@ -28,17 +31,20 @@ public class FatturaController {
     */
 
     @GetMapping
-    public Page<Fattura> filtraFatture(
+    public Page<StatoFattura> filtraFatt(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false, defaultValue = "0") String idCliente,
-            @RequestParam(required = false, defaultValue = "0") String dataMagDi,
-            @RequestParam(required = false) Double importoMagDi,
-            @RequestParam(required = false) Double importoMinDi
-    ) {
-        return fatturaService.filtraFatture(page, size, idCliente, dataMagDi, importoMagDi, importoMinDi);
+            @RequestParam(required = false, defaultValue = "0") String nomeStato,
+            @RequestParam(required = false, defaultValue = "0") String dataDa,
+            @RequestParam(required = false, defaultValue = "0") String dataA,
+            @RequestParam(required = false) Double impMin,
+            @RequestParam(required = false) Double impMax
 
+    ) {
+        return statoFatturaService.filtraFatture(page, size, idCliente, nomeStato, dataDa, dataA, impMin, impMax);
     }
+
 /*
     @GetMapping("/{numeroFattura}")
     public ResponseEntity<FatturaResponse> getById(@PathVariable long numeroFattura) {
