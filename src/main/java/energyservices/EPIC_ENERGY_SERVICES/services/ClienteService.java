@@ -267,7 +267,9 @@ public class ClienteService {
             Double fatMin,
             Double fatMax,
             String dataInsSt,
-            String dataUltSt
+            String dataUltSt,
+            String sortBy,
+            String direction
     ) {
         LocalDate dataIns;
         if (dataInsSt.equals("0")) {
@@ -290,7 +292,7 @@ public class ClienteService {
             }
         }
         Pageable pageable = PageRequest.of(page, size);
-        return clienteRepo.findAll((SpecificationCliente.filtra(nome, fatMin, fatMax, dataIns, dataUlt)), pageable);
+        return clienteRepo.findAll((SpecificationCliente.filtra(nome, fatMin, fatMax, dataIns, dataUlt, sortBy, direction)), pageable);
     }
 
 

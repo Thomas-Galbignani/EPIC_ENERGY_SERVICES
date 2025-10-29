@@ -52,7 +52,7 @@ public class ClienteController {
         }
     }
 
-   
+
     @GetMapping
     public Page<Cliente> filtraClienti(
             @RequestParam(defaultValue = "0") int page,
@@ -61,9 +61,11 @@ public class ClienteController {
             @RequestParam(required = false) Double fatMin,
             @RequestParam(required = false) Double fatMax,
             @RequestParam(required = false, defaultValue = "0") String dataInsSt,
-            @RequestParam(required = false, defaultValue = "0") String dataUltSt
+            @RequestParam(required = false, defaultValue = "0") String dataUltSt,
+            @RequestParam(required = false, defaultValue = "nome") String sortBy,
+            @RequestParam(required = false, defaultValue = "ASC") String direction
     ) {
-        return clienteService.filtra(page, size, nome, fatMin, fatMax, dataInsSt, dataUltSt);
+        return clienteService.filtra(page, size, nome, fatMin, fatMax, dataInsSt, dataUltSt, sortBy, direction);
     }
 /*
     @GetMapping("/{id}")
