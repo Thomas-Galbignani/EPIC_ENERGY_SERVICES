@@ -1,6 +1,8 @@
 package energyservices.EPIC_ENERGY_SERVICES.services;
 
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Cliente;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Comune;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Fattura;
@@ -13,20 +15,26 @@ import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NewClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NuovoClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDTO;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDataDTO;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResLogoDTO;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.ClienteRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.FatturaRepo;
 import energyservices.EPIC_ENERGY_SERVICES.repositories.IndirizzoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 
 @Service
 public class ClienteService {
+    private static final long MAX_SIZE = 10 * 1024 * 1024; //10 Mb ;
+    private static final List<String> ALLOWED_TYPES = List.of("image/jpg", "image/jpeg", "image/png");
 
     @Autowired
     private ClienteRepo clienteRepo;
@@ -38,6 +46,8 @@ public class ClienteService {
     private FatturaRepo fatturaRepo;
     @Autowired
     private FatturaService fatturaService;
+    @Autowired
+    private Cloudinary imageUploader;
 
 
     private LocalDate getData(String data) {
@@ -189,6 +199,35 @@ public class ClienteService {
 
         clienteRepo.save(found);
         return new ClienteResDataDTO(found.getUuid(), found.getNomeContatto(), found.getCognomeContatto(), found.getDataUltimoContatto());
+    }
+
+    public ClienteResLogoDTO changeLogo(UUID id, MultipartFile file) {
+
+        Cliente found = this.findById(id);
+
+        //controllo che il file non sia vuoto
+        if (file.isEmpty()) {
+            throw new BadRequestException("il file è vuoto");
+        }
+        //non superi i 10 MB
+        if (file.getSize() > MAX_SIZE) {
+            throw new BadRequestException("il file supera la dimensione massima consentita");
+        }
+        //sia di tipo jpg, jpeg o png
+        if (!ALLOWED_TYPES.contains(file.getContentType())) {
+            throw new BadRequestException("formato del file non supportato");
+        }
+        try {
+            Map res = imageUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            String imgUrl = (String) res.get("url");
+            found.setLogoAziendale(imgUrl);
+            clienteRepo.save(found);
+            ClienteResLogoDTO response = new ClienteResLogoDTO(found.getUuid().toString(), found.getLogoAziendale());
+            return response;
+
+        } catch (IOException ex) {
+            throw new BadRequestException("errore nell'upload");
+        }
     }
 
 
