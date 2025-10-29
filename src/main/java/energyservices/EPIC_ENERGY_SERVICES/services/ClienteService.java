@@ -235,17 +235,25 @@ public class ClienteService {
         }
     }
 
-    public Page<Cliente> filtraClienti(int page, int size, String dataIns, String nome) {
+    public Page<Cliente> filtraClienti(int page, int size, String dataIns, String dataUltimoIns, String nome) {
         LocalDate data;
+        LocalDate dataUltimo;
         if (dataIns.equals("0")) {
             data = null;
 
         } else {
             data = getData(dataIns);
         }
+        if (dataUltimoIns.equals("0")) {
+            dataUltimo = null;
+
+        } else {
+            dataUltimo = getData(dataUltimoIns);
+        }
 
         Specification<Cliente> spec = Specification.not(SpecificationCliente.dataInserimentoDopo(data))
-                .and(SpecificationCliente.nomeContiene(nome));
+                .and(SpecificationCliente.nomeContiene(nome))
+                .and(SpecificationCliente.dataUltimoContDopo(dataUltimo));
         Pageable pageable = PageRequest.of(page, size);
 
         return clienteRepo.findAll(spec, pageable);

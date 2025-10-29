@@ -21,5 +21,11 @@ public class SpecificationCliente {
                         cb.like(cb.lower(root.get("nomeContatto")), "%" + nome.toLowerCase() + "%");
     }
 
+    public static Specification<Cliente> dataUltimoContDopo(LocalDate data) {
+
+        return (root, query, cb) ->
+                data == null ? null : cb.lessThan(root.get("dataUltimoContatto"), data);
+    }
+
 
 }

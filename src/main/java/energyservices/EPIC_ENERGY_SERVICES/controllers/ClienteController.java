@@ -57,9 +57,10 @@ public class ClienteController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false, defaultValue = "0") String dataInserimento,
+            @RequestParam(required = false, defaultValue = "0") String dataUltimoContatto,
             @RequestParam(required = false) String nome
     ) {
-        return clienteService.filtraClienti(page, size, dataInserimento, nome);
+        return clienteService.filtraClienti(page, size, dataInserimento, dataUltimoContatto, nome);
     }
 /*
     @GetMapping("/{id}")
