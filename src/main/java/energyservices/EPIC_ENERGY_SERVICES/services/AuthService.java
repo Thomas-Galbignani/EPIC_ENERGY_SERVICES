@@ -4,6 +4,7 @@ import energyservices.EPIC_ENERGY_SERVICES.configs.security.JWTTools;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Ruoli;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Utente;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.BadRequestException;
+import energyservices.EPIC_ENERGY_SERVICES.exceptions.NotFoundEmailException;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.NotFoundException;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.UnauthorizedException;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.LoginRequest;
@@ -45,7 +46,7 @@ public class AuthService {
         if (found.isPresent()) {
             return found.get();
         } else {
-            throw new NotFoundException(UUID.fromString(email));
+            throw new NotFoundEmailException("L'utente con email: "+ email +" non è stato trovato");
         }
     }
 
