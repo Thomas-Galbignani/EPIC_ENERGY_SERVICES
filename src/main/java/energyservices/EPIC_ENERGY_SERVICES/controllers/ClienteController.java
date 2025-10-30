@@ -5,6 +5,7 @@ import energyservices.EPIC_ENERGY_SERVICES.exceptions.BadRequestException;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.ValidazioneFallitaExeption;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NuovoClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDTO;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResLogoDTO;
 import energyservices.EPIC_ENERGY_SERVICES.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -97,6 +99,14 @@ public class ClienteController {
             @RequestParam(required = false, defaultValue = "ASC") String direction
     ) {
         return clienteService.filtra(page, size, nome, fatMin, fatMax, dataInsSt, dataUltSt, sortBy, direction);
+    }
+
+    @PatchMapping("/{id}/logo")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClienteResLogoDTO changeAvatar(@PathVariable UUID id, @RequestParam("logo") MultipartFile file) {
+        System.out.println(file.getOriginalFilename());
+        return clienteService.changeLogo(id, file);
     }
 /*
     @GetMapping("/{id}")
