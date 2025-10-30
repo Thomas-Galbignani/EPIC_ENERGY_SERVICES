@@ -74,7 +74,7 @@ public class SpecificationCliente {
 
             Predicate predicato = cb.conjunction();
 
-            // --- FILTRI ---
+            //  FILTRI 
             if (nome != null && !nome.isEmpty()) {
                 predicato = cb.and(predicato,
                         cb.like(cb.lower(root.get("nomeContatto")), "%" + nome.toLowerCase() + "%"));
@@ -90,7 +90,7 @@ public class SpecificationCliente {
                         cb.lessThanOrEqualTo(root.get("dataUltimoContatto"), dataUlt));
             }
 
-            // --- Filtri per fatturato usando subquery ---
+            // Filtri per fatturato usando subquery
             if (fatMin != null || fatMax != null) {
                 Subquery<Double> sub = query.subquery(Double.class);
                 Root<Fattura> fatturaRoot = sub.from(Fattura.class);
@@ -107,7 +107,7 @@ public class SpecificationCliente {
                 }
             }
 
-            // --- ORDINAMENTO ---
+            //  ORDINAMENTO
             boolean asc = !"DESC".equalsIgnoreCase(direction);
             Order ordine;
 
@@ -129,9 +129,10 @@ public class SpecificationCliente {
                     Root<Indirizzo> indirizzoRoot = sub.from(Indirizzo.class);
                     Join<Indirizzo, Comune> comuneJoin = indirizzoRoot.join("comune");
 
+                    //relazione Indirizzo e Cliente
                     sub.select(comuneJoin.get("provincia"));
                     sub.where(
-                            cb.equal(indirizzoRoot.get("cliente"), root),       // relazione Indirizzo → Cliente
+                            cb.equal(indirizzoRoot.get("cliente"), root),
                             cb.equal(indirizzoRoot.get("tipoSede"), TipoSede.SEDE_LEGALE)
                     );
 
