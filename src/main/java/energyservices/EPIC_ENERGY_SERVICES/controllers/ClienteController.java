@@ -2,15 +2,20 @@ package energyservices.EPIC_ENERGY_SERVICES.controllers;
 
 import energyservices.EPIC_ENERGY_SERVICES.entities.Cliente;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.BadRequestException;
+import energyservices.EPIC_ENERGY_SERVICES.exceptions.ValidazioneFallitaExeption;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NuovoClientePayload;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDTO;
 import energyservices.EPIC_ENERGY_SERVICES.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/clienti")
@@ -52,6 +57,21 @@ public class ClienteController {
         }
     }
 
+    @PostMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
+    public ClienteResDTO salvaCliente(@RequestBody @Validated NuovoClientePayload body, BindingResult valRes) {
+
+        if (valRes.hasErrors()) {
+            List<String> errList = new ArrayList<>();
+            for (int i = 0; i < valRes.getFieldErrors().size(); i++) {
+                errList.add(valRes.getFieldErrors().get(i).getDefaultMessage());
+            }
+            throw new ValidazioneFallitaExeption(errList);
+        }
+        ClienteResDTO c = clienteService.clienteSave(body);
+        return c;
+
+    }
 
     @GetMapping
     public Page<Cliente> filtraClienti(
