@@ -1,9 +1,8 @@
 package energyservices.EPIC_ENERGY_SERVICES.payloads.requests;
 
-import energyservices.EPIC_ENERGY_SERVICES.enums.RagioneSociale;
-import jakarta.validation.constraints.*;
-import java.time.LocalDate;
-import java.util.UUID;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,38 +11,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewClientePayload {
-
-    @NotNull
-    private RagioneSociale ragioneSociale;
-
     @NotBlank
-    private String pIva;
-
+    private String ragioneSociale;
     @Email
     private String email;
-
-    private LocalDate dataInserimento;
-    private LocalDate dataUltimoContatto;
-
-    @PositiveOrZero
-    private long fatturatoAnnuale;
-
+    @NotNull
     private String PEC;
     private String telefono;
-
-    @Email
     private String emailContatto;
-
+    @NotBlank
     private String nomeContatto;
+    @NotBlank
     private String cognomeContatto;
     private String telefonoContatto;
-
-    private String logoAziendale; // URL Cloudinary
-
-    // ID degli indirizzi opzionali
-    private UUID sedeLegaleId;
-    private UUID sedeOperativaId;
-
-    // Getters e Setters
-    // (puoi usare @Data di Lombok se preferisci)
 }

@@ -1,14 +1,17 @@
 package energyservices.EPIC_ENERGY_SERVICES.payloads.requests;
 
-import energyservices.EPIC_ENERGY_SERVICES.enums.TipoUtente;
-import jakarta.validation.constraints.*;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class RegisterUtentePayload {
 
     @NotBlank
@@ -26,6 +29,5 @@ public class RegisterUtentePayload {
     @NotBlank
     private String surname;
 
-    private TipoUtente tipoUtente = TipoUtente.USER; // default
 
 }

@@ -1,21 +1,25 @@
 package energyservices.EPIC_ENERGY_SERVICES.entities;
 
 
-import energyservices.EPIC_ENERGY_SERVICES.enums.TipoUtente;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+
 @Data
 @Table(name = "utenti")
-public class Utente {
+public class Utente implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -26,6 +30,26 @@ public class Utente {
     private String surname;
     private String email;
     private String password;
-    private TipoUtente tipoUtente;
+    @ManyToOne
+    @JoinTable(
+            name = "ruoli_utenti",
+            joinColumns = @JoinColumn(name = "utente_id"),
+            inverseJoinColumns = @JoinColumn(name = "ruolo_id")
+    )
+    private Ruoli ruolo;
 
+
+    public Utente(String username, String name, String surname, String email, String password) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.getRuolo().getNomeRuolo().toUpperCase()));
+    }
 }

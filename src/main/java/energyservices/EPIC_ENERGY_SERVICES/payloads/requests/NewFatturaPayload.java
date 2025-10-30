@@ -1,12 +1,14 @@
 package energyservices.EPIC_ENERGY_SERVICES.payloads.requests;
 
-import energyservices.EPIC_ENERGY_SERVICES.enums.StatoFattura;
-import jakarta.validation.constraints.*;
-import java.time.LocalDate;
-import java.util.UUID;
+import energyservices.EPIC_ENERGY_SERVICES.entities.StatoFattura;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor

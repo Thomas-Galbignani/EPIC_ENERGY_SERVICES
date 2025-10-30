@@ -1,6 +1,6 @@
 package energyservices.EPIC_ENERGY_SERVICES.payloads.requests;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class LoginRequest {
 
     @NotBlank
-    private String usernameOrEmail;
+    private String email;
 
     @NotBlank
     private String password;
