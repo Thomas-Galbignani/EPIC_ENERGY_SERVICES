@@ -44,7 +44,7 @@ public class FatturaController {
     // cerca fattura per ID
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
-    public Fattura getFatturaById (@PathVariable long id) {
+    public Fattura getFatturaById(@PathVariable long id) {
         return fatturaService.findById(id);
     }
 
@@ -52,16 +52,17 @@ public class FatturaController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void eliminaFattura(@PathVariable long id){
+    public void eliminaFattura(@PathVariable long id) {
         fatturaService.eliminaFattura(id);
     }
 
     // Aggiornare stato fattura
     @PatchMapping("/{id}/stato")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public FatturaResponse aggiornaStatoFattura(@PathVariable long id,@RequestParam String nuovoStato){
+    public FatturaResponse aggiornaStatoFattura(@PathVariable long id, @RequestParam String nuovoStato) {
         return fatturaService.setStato(id, nuovoStato);
     }
+
 
     //filtrare/paginare le fatture
     @GetMapping
