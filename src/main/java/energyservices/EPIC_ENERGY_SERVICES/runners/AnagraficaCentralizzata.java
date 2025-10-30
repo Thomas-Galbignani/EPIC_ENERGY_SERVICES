@@ -10,6 +10,7 @@ import energyservices.EPIC_ENERGY_SERVICES.repositories.*;
 import energyservices.EPIC_ENERGY_SERVICES.services.AuthService;
 import energyservices.EPIC_ENERGY_SERVICES.services.ClienteService;
 import energyservices.EPIC_ENERGY_SERVICES.services.FatturaService;
+import energyservices.EPIC_ENERGY_SERVICES.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,6 +46,8 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
     private FatturaService fatturaService;
     @Autowired
     private FatturaRepo fatturaRepo;
+    @Autowired
+    private MailService mailService;
 
 
     @Override

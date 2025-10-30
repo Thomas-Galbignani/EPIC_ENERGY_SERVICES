@@ -3,10 +3,12 @@ package energyservices.EPIC_ENERGY_SERVICES.controllers;
 import energyservices.EPIC_ENERGY_SERVICES.entities.Cliente;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.BadRequestException;
 import energyservices.EPIC_ENERGY_SERVICES.exceptions.ValidazioneFallitaExeption;
+import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.EmailDTO;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.NuovoClientePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDTO;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResLogoDTO;
 import energyservices.EPIC_ENERGY_SERVICES.services.ClienteService;
+import energyservices.EPIC_ENERGY_SERVICES.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,8 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private MailService mailService;
 
     /*
         @PostMapping
@@ -107,6 +111,15 @@ public class ClienteController {
     public ClienteResLogoDTO changeAvatar(@PathVariable UUID id, @RequestParam("logo") MultipartFile file) {
         System.out.println(file.getOriginalFilename());
         return clienteService.changeLogo(id, file);
+    }
+
+    @PostMapping("/{id}/email")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String inviMail(@PathVariable UUID id, @RequestBody @Validated EmailDTO body) {
+        mailService.inviaMail(id, body.oggetto(), body.messaggio());
+        return "messaggio inviato";
+
     }
 /*
     @GetMapping("/{id}")
