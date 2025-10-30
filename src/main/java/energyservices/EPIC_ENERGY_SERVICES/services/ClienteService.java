@@ -117,7 +117,7 @@ public class ClienteService {
                 payloadCliente.cognomeContatto(),
                 payloadCliente.tellContatto());
 
-
+/*
         String tipoSedeString = payloadCliente.tipoSede();
         TipoSede tipoSede;
         switch (tipoSedeString.toLowerCase()) {
@@ -129,14 +129,14 @@ public class ClienteService {
                 break;
             default:
                 throw new BadRequestException("Tipo sede non valido, scegli tra le seguenti : 'sede legale', 'sede operativa' ");
-        }
+        }*/
 
         String nomeComune = payloadCliente.denominazione();
         Comune comune = comuneService.findById(nomeComune);
 
         Cliente cliente = clienteRepo.save(c);
 
-        Indirizzo i = new Indirizzo(payloadCliente.via(), payloadCliente.civico(), payloadCliente.cap(), tipoSede, comune, cliente);
+        Indirizzo i = new Indirizzo(payloadCliente.via(), payloadCliente.civico(), payloadCliente.cap(), TipoSede.SEDE_LEGALE, comune, cliente);
 
         indirizzoRepo.save(i);
 

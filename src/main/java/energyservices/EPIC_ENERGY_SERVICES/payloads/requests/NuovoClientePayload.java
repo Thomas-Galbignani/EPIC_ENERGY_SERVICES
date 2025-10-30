@@ -27,8 +27,7 @@ public record NuovoClientePayload(
         @NotBlank
         String cap,
         @NotNull
-        String denominazione,
-        @NotNull
-        String tipoSede
+        String denominazione
+
 ) {
 }

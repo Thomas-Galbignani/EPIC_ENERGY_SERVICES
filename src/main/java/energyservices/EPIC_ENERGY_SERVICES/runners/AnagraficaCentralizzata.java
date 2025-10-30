@@ -85,7 +85,7 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
             authService.salvaAdmin(ad);
         }
 
-        NuovoClientePayload nuovoClientePayload = new NuovoClientePayload("SPA", "02108937465", "email@emailtest.com", "pippero@pippero.it", "3518867764", "pippero@azienda.it", "franco", "spesso", "027873648", "g.rossi", "21", "02122", "Bressanone", "sede legale");
+        NuovoClientePayload nuovoClientePayload = new NuovoClientePayload("SPA", "02108937465", "email@emailtest.com", "pippero@pippero.it", "3518867764", "pippero@azienda.it", "franco", "spesso", "027873648", "g.rossi", "21", "02122", "Bressanone");
         if (clienteRepo.findAll().isEmpty()) {
             clienteService.clienteSave(nuovoClientePayload);
         }
