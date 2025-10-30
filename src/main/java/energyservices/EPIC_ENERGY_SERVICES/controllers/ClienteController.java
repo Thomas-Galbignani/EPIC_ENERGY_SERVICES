@@ -8,6 +8,7 @@ import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.ClienteResDTO;
 import energyservices.EPIC_ENERGY_SERVICES.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/clienti")
@@ -59,6 +61,7 @@ public class ClienteController {
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
+    @ResponseStatus(HttpStatus.CREATED)
     public ClienteResDTO salvaCliente(@RequestBody @Validated NuovoClientePayload body, BindingResult valRes) {
 
         if (valRes.hasErrors()) {
@@ -72,6 +75,14 @@ public class ClienteController {
         return c;
 
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancellaCliente(@PathVariable UUID id) {
+        clienteService.cancellaCliente(id);
+    }
+
 
     @GetMapping
     public Page<Cliente> filtraClienti(
