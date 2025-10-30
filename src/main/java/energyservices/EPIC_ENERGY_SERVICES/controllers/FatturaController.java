@@ -9,6 +9,7 @@ import energyservices.EPIC_ENERGY_SERVICES.services.StatoFatturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -78,5 +79,14 @@ public class FatturaController {
 
     ) {
         return statoFatturaService.filtraFatture(page, size, idCliente, nomeStato, dataDa, dataA, impMin, impMax);
+    }
+    // Cambiare lo stato della fattura
+    @PutMapping("/{numeroFattura}/stato")
+    public ResponseEntity<FatturaResponse> cambiaStato(
+            @PathVariable long numeroFattura,
+            @RequestParam String nuovoStato
+    ) {
+        FatturaResponse response = fatturaService.setStato(numeroFattura, nuovoStato);
+        return ResponseEntity.ok(response);
     }
 }
