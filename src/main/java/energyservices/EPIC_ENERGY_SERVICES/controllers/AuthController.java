@@ -1,6 +1,7 @@
 package energyservices.EPIC_ENERGY_SERVICES.controllers;
 
 import energyservices.EPIC_ENERGY_SERVICES.entities.Utente;
+import energyservices.EPIC_ENERGY_SERVICES.exceptions.ValidazioneFallitaExeption;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.LoginRequest;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.requests.RegisterUtentePayload;
 import energyservices.EPIC_ENERGY_SERVICES.payloads.responses.JwtAuthResponse;
@@ -14,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -35,7 +38,13 @@ public class AuthController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UtenteResponsePayload register(@RequestBody @Validated RegisterUtentePayload payload, BindingResult br) {
-        if (br.hasErrors()) throw new IllegalArgumentException(br.getAllErrors().toString());
+        if (br.hasErrors()) {
+            List<String> errList = new ArrayList<>();
+            for (int i = 0; i < br.getFieldErrors().size(); i++) {
+                errList.add(br.getFieldErrors().get(i).getDefaultMessage());
+            }
+            throw new ValidazioneFallitaExeption(errList);
+        }
         RegisterUtentePayload utToSave = new RegisterUtentePayload(payload.getUsername(), payload.getEmail(), bCrypt.encode(payload.getPassword()), payload.getName(), payload.getSurname());
         Utente u = authService.salvaUtente(utToSave);
         UtenteResponsePayload res = new UtenteResponsePayload(u.getUuid().toString(), u.getName(), u.getSurname());
