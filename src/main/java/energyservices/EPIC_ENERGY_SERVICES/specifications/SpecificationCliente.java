@@ -74,7 +74,7 @@ public class SpecificationCliente {
 
             Predicate predicato = cb.conjunction();
 
-            //  FILTRI 
+            //  FILTRI
             if (nome != null && !nome.isEmpty()) {
                 predicato = cb.and(predicato,
                         cb.like(cb.lower(root.get("nomeContatto")), "%" + nome.toLowerCase() + "%"));
