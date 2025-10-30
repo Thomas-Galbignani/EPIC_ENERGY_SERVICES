@@ -50,6 +50,6 @@ public class Utente implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.ruolo.getNomeRuolo()));
+        return List.of(new SimpleGrantedAuthority(this.getRuolo().getNomeRuolo().toUpperCase()));
     }
 }
