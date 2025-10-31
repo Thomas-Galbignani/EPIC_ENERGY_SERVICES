@@ -22,10 +22,10 @@ public class MailgunSender {
 
         HttpResponse<JsonNode> response = Unirest.post("https://api.mailgun.net/v3/" + this.domain + "/messages")
                 .basicAuth("api", this.apiKey)
-                .queryString("from", "Mailgun Sandbox <postmaster@sandboxa972eb2a3a6d4cb284dac2d2f1bd68c9.mailgun.org>")//in caso cambiare la mail.
+                .queryString("from", "Mailgun Sandbox <postmaster@" + domain + ">")//in caso cambiare la mail.
                 .queryString("to", recipient.getEmail()) // Qua potrà esserci solo uno degli indirizzi autorizzati precedentemente sulla dashboard di Mailgun
                 .queryString("subject", og)
-                .queryString("text", "Ciao, " + recipient.getNomeContatto() + " " + recipient.getCognomeContatto() + mes)
+                .queryString("text", "Ciao, " + recipient.getNomeContatto() + " " + recipient.getCognomeContatto() + " " + mes)
                 .asJson();
         System.out.println(response.getBody()); // <-- Consiglio questo log per debuggare eventuali problemi
     }
@@ -34,3 +34,4 @@ public class MailgunSender {
     }
 
 }
+//"Mailgun Sandbox <postmaster@sandboxa972eb2a3a6d4cb284dac2d2f1bd68c9.mailgun.org>"
