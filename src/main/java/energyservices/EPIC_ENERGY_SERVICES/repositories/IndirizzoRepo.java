@@ -1,0 +1,14 @@
+package energyservices.EPIC_ENERGY_SERVICES.repositories;
+
+import energyservices.EPIC_ENERGY_SERVICES.entities.Cliente;
+import energyservices.EPIC_ENERGY_SERVICES.entities.Indirizzo;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.UUID;
+
+@Repository
+public interface IndirizzoRepo extends JpaRepository<Indirizzo, UUID> {
+    List<Indirizzo> findByCliente(Cliente cliente);
+}
