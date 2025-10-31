@@ -24,10 +24,10 @@ public class RegisterUtentePayload {
     private String password;
 
     @NotBlank
-    private String nome;
+    private String name;
 
     @NotBlank
-    private String cognome;
+    private String surname;
 
 
 }
