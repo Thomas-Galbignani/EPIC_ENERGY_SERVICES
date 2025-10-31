@@ -84,7 +84,7 @@ public class AnagraficaCentralizzata implements CommandLineRunner {
 
         }
         if (c <= 0) {
-            RegisterUtentePayload ad = new RegisterUtentePayload("admin", "admin@gmial.com", bcrypt.encode("1234"), "Thomas", "Galbignani");
+            RegisterUtentePayload ad = new RegisterUtentePayload("admin", "admin@gmail.com", bcrypt.encode("1234"), "Thomas", "Galbignani");
             authService.salvaAdmin(ad);
         }
 
